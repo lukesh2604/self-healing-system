@@ -1,0 +1,27 @@
+services:
+  # The Patient
+  monitored-app:
+    image: monitored-app:v1
+    container_name: monitored-app
+    ports:
+      - "8080:8080"
+    networks:
+      - monitor-net
+
+  # The Doctor
+  monitoring-service:
+    image: monitoring-service:v1
+    container_name: monitoring-service
+    ports:
+      - "8081:8081"
+    environment:
+      # MAGIC HAPPENS HERE: We tell it to look at the container name, not localhost
+      - TARGET_SERVICE_URL=http://monitored-app:8080
+    depends_on:
+      - monitored-app
+    networks:
+      - monitor-net
+
+networks:
+  monitor-net:
+    driver: bridge
