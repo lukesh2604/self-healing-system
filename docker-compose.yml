@@ -1,7 +1,7 @@
 services:
   # The Patient
   monitored-app:
-    image: monitored-app:v1
+    image: lukesh26/monitored-app:latest
     container_name: monitored-app
     ports:
       - "8080:8080"
@@ -10,7 +10,7 @@ services:
 
   # The Doctor
   monitoring-service:
-    image: monitoring-service:v1
+    image: lukesh26/monitoring-service:latest
     container_name: monitoring-service
     ports:
       - "8081:8081"
