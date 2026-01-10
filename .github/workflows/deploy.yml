@@ -66,8 +66,12 @@ jobs:
         key: ${{ secrets.EC2_KEY }}
         envs: SLACK_WEBHOOK_URL
         script: |
-          export SLACK_WEBHOOK_URL=$SLACK_WEBHOOK_URL
-          if [ -z "$SLACK_WEBHOOK_URL" ]; then echo "Secret is MISSING"; else echo "Secret is SET"; fi
+          # 1. Write the secret to a .env file (Persistent Fix)
+          echo "SLACK_WEBHOOK_URL=$SLACK_WEBHOOK_URL" > .env
+          
+          # 2. Verify it exists
+          if grep -q "SLACK_WEBHOOK_URL" .env; then echo ".env file created"; else echo "Failed to create .env"; fi
+          
           docker-compose pull
-          docker-compose up -d
+          docker-compose up -d --force-recreate
           docker image prune -f
