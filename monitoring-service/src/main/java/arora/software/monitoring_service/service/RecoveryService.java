@@ -19,6 +19,7 @@ public class RecoveryService {
             return;
         }
         log.warn("FAILURE DETECTED. Initiating Self-Healing Protocol...");
+        lastRecoveryTime.set(Instant.now().getEpochSecond());
 
         try {
             ProcessBuilder processBuilder = new ProcessBuilder();

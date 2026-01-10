@@ -1,5 +1,7 @@
 package arora.software.monitoring_service.service;
 
+import java.time.Instant;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,9 +26,9 @@ public class HealthCheckerScheduler {
     @Scheduled(fixedRate = 5000, initialDelay = 30000)
     public void checkHealth(){
         if (recoveryService.isInCooldown()) {
-        log.info("System recovering... Skipping health check.");
-        return;
-    }
+            log.info("System recovering... Skipping health check.");
+            return;
+        }
         try {
             restClient.get()
                 .uri("/actuator/health")
