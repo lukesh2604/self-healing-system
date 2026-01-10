@@ -21,7 +21,7 @@ public class HealthCheckerScheduler {
         this.recoveryService = recoveryService;
     }
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 5000, initialDelay = 30000)
     public void checkHealth(){
         try {
             restClient.get()
