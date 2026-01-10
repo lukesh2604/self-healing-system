@@ -23,6 +23,10 @@ public class HealthCheckerScheduler {
 
     @Scheduled(fixedRate = 5000, initialDelay = 30000)
     public void checkHealth(){
+        if (recoveryService.isInCooldown()) {
+        log.info("System recovering... Skipping health check.");
+        return;
+    }
         try {
             restClient.get()
                 .uri("/actuator/health")
