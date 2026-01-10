@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MainService {
+    private final List<byte[]> list = new ArrayList<>();
     
     public void kill(){
         System.exit(1);
@@ -22,7 +23,6 @@ public class MainService {
 
     public void memory(){
 
-        List<byte[]> list = new ArrayList<>();
         while (true) {
             byte[] b = new byte[1048576];
             list.add(b);
