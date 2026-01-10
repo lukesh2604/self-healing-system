@@ -67,6 +67,7 @@ jobs:
         envs: SLACK_WEBHOOK_URL
         script: |
           export SLACK_WEBHOOK_URL=$SLACK_WEBHOOK_URL
+          if [ -z "$SLACK_WEBHOOK_URL" ]; then echo "Secret is MISSING"; else echo "Secret is SET"; fi
           docker-compose pull
           docker-compose up -d
           docker image prune -f

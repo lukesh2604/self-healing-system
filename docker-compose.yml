@@ -7,6 +7,11 @@ services:
       - "8080:8080"
     environment:
       - JAVA_TOOL_OPTIONS=-XX:+ExitOnOutOfMemoryError
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.50'
     networks:
       - monitor-net
 
@@ -19,8 +24,13 @@ services:
     environment:
       - TARGET_SERVICE_URL=http://monitored-app:8080
       - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL}
+      - CONTAINER_TO_RESTART=monitored-app
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      resources:
+        reservations:
+          memory: 256M
     depends_on:
       - monitored-app
     networks:
