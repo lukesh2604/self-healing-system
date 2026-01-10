@@ -1,6 +1,9 @@
 # Start with a Java 21 base image
 FROM eclipse-temurin:21-jdk-alpine
 
+#Allowing container to run docker commands
+RUN apk add --no-cache docker-cli
+
 # Set a temporary volume
 VOLUME /tmp
 

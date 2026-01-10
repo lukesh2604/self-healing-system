@@ -14,9 +14,11 @@ public class HealthCheckerScheduler {
     
     private final RestClient restClient;
     private final Logger log = LoggerFactory.getLogger(HealthCheckerScheduler.class);
+    private final RecoveryService recoveryService;
 
-    public HealthCheckerScheduler(RestClient.Builder restClientBuilder, @Value("${target.service.url:http://localhost:8080}") String targetUrl){
+    public HealthCheckerScheduler(RestClient.Builder restClientBuilder, @Value("${target.service.url:http://localhost:8080}") String targetUrl, RecoveryService recoveryService){
         this.restClient = restClientBuilder.baseUrl(targetUrl).build();
+        this.recoveryService = recoveryService;
     }
 
     @Scheduled(fixedRate = 5000)
@@ -30,6 +32,7 @@ public class HealthCheckerScheduler {
             
         } catch (Exception e) {
             log.error("🚨 Service DOWN: {}", e.getMessage());
+            recoveryService.recover();
         }
         
     }

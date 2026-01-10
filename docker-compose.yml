@@ -15,8 +15,9 @@ services:
     ports:
       - "8081:8081"
     environment:
-      # MAGIC HAPPENS HERE: We tell it to look at the container name, not localhost
       - TARGET_SERVICE_URL=http://monitored-app:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - monitored-app
     networks:
